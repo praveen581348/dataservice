@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Viewer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4">Message Viewer</h1>
+
+    <form method="POST" action="/search" class="mb-4">
+        <label for="msg_id">Select Message ID:</label>
+        <select class="form-control" name="msg_id" required>
+            {% for msg_id in all_ids %}
+                <option value="{{ msg_id }}">{{ msg_id }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-primary mt-2" type="submit">Search</button>
+    </form>
+
+    {% if message %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Content</th>
+                <th>Received At</th>
+                <th>Source</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <form action="/submit" method="post">
+                    <td><input type="hidden" name="msg_id" value="{{ message.id }}">{{ message.id }}</td>
+                    <td><input type="hidden" name="content" value="{{ message.content }}">{{ message.content }}</td>
+                    <td><input type="hidden" name="received_at" value="{{ message.received_at }}">{{ message.received_at }}</td>
+                    <td>{{ message.source }}</td>
+                    <td><button type="submit" class="btn btn-success">Submit</button></td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+</body>
+</html>
